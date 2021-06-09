@@ -12,8 +12,8 @@ export enum Environment {
 })
 export class ConfigService {
   constructor() {}
-  env;
-  apiUrl;
+  env: string;
+  apiUrl: String;
 
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -30,7 +30,6 @@ export class ConfigService {
         case Environment.Dev: {
           this.env = 'Dev';
           this.apiUrl = 'https://dev.com/api';
-          console.log('Dev');
           break;
         }
         default: {
