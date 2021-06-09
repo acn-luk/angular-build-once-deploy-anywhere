@@ -8,9 +8,11 @@ import { ConfigService } from './config.service';
 })
 export class AppComponent {
   name = 'Angular ' + VERSION.major;
+  env: String;
   apiUrl: String;
 
   constructor(configService: ConfigService) {
-    this.apiUrl = configService.apiUrl;
+    this.apiUrl = configService.config.get('apiUrl');
+    this.env = configService.config.get('env');
   }
 }

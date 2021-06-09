@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 export enum Environment {
   Local = 'localhost',
   Dev = 'angular-build-once-deploy-anywhere.stackblitz.io',
-  Test = 'angular-build-once-deploy-anywhere.test.stackblitz.io',
   Prod = 'angular-build-once-deploy-anywhere.prod.stackblitz.io'
 }
 
@@ -12,35 +11,34 @@ export enum Environment {
 })
 export class ConfigService {
   constructor() {}
-  env: string;
-  apiUrl: String;
+  config = new Map();
 
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
       const hostname = window && window.location && window.location.hostname;
 
-      console.log(hostname);
+      console.log('Hostname: ' + hostname);
 
       switch (hostname) {
         case Environment.Prod: {
-          this.env = 'Prod';
-          this.apiUrl = 'https://prod.com/api';
+          this.config.set('env', 'Prod');
+          this.config.set('apiUrl', 'https://prod.com/api');
           break;
         }
         case Environment.Dev: {
-          this.env = 'Dev';
-          this.apiUrl = 'https://dev.com/api';
+          this.config.set('env', 'Dev');
+          this.config.set('apiUrl', 'https://dev.com/api');
           break;
         }
         default: {
-          this.env = 'Local';
-          this.apiUrl = 'http://localhost:8080/api';
+          this.config.set('env', 'Local');
+          this.config.set('apiUrl', 'https://localhost:8080/api');
           break;
         }
       }
 
-      console.log('Environment: ' + this.env);
-      resolve(this.apiUrl);
+      console.log('Environment: ' + this.config.get('env'));
+      resolve(this.config);
     });
   }
 }
